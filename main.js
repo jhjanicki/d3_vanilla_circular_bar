@@ -20,22 +20,23 @@ const cleanedData = data.map(d => {
     }
 })
 
-//to format the x-axis labels
+//format the x-axis labels
 const dateFormat = d3.timeFormat("%Y");
 
 const minDate = new Date(cleanedData[0].timestamp);
 const maxDate = new Date(cleanedData[cleanedData.length - 1].timestamp);
 
+//scales
 const xScale = d3.scaleBand().domain(cleanedData.map(d => new Date(d.timestamp))).range([0, 2 * Math.PI])
 
 const yScale = d3.scaleLinear()
     .domain(d3.extent(cleanedData, d => d.value))
     .range([innerRadius, outerRadius]);
 
-const colorScale = d3.scaleSequential(d3.interpolateSpectral)
+const colorScale = d3.scaleSequential(d3.interpolateRdGy)
     .domain(d3.extent(cleanedData, d => d.value).reverse())
 
-
+//arc generator
 const arc = d3.arc()
     .innerRadius(yScale(0))
     .outerRadius(d => yScale(d.value))
@@ -44,10 +45,8 @@ const arc = d3.arc()
     .padAngle(0.01)
     .padRadius(innerRadius)
 
-
-
 //svg
-const svg = d3.select("#chart1").append("svg").attr("width", length).attr("height", length);
+const svg = d3.select("#chart").append("svg").attr("width", length).attr("height", length);
 const g = svg.append("g").attr("transform", `translate(${length / 2},${length / 2})`);
 
 g.selectAll('path')
@@ -82,37 +81,3 @@ g.selectAll('text.xLabel')
     .attr('dy', '0.35em')
     .style("fill", '#1a1a1a')
     .text(yScale.tickFormat(6, 's'))
-
-
-// create data for x-axis, every n years
-// const start = 1880;
-// const end = 2010; //2020 will
-// const step = 10;
-// const arrayLength = Math.floor(((end - start) / step)) + 1;
-// const years = [...Array(arrayLength).keys()].map(d => (d * step) + start);
-
-
-// g.selectAll("line.yGrid")
-//     .data(years)
-//     .join("line")
-//     .attr("class", "yGrid")
-//     .attr('transform', (d, i, arr) => `
-//         rotate(${i * 360 / arr.length-360/4})
-//         translate(${innerRadius},0)
-//     `)
-//     .attr('x1', -5)
-//     .attr('x2', outerRadius - innerRadius + 10)
-//     .style('stroke', '#aaa')
-
-// g.selectAll("g.yLabel")
-//     .data(years)
-//     .join("g")
-//     .attr("class", "yLabel")
-//     .attr('transform', (d, i, arr) => `
-//         rotate(${i * 360 / arr.length-360/4.1})
-//         translate(${innerRadius-30},0)
-//     `)
-//     .append("text")
-//     .style('font-family', 'sans-serif')
-//     .style('font-size', 10)
-//     .text(d => d)
