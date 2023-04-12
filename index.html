@@ -3,7 +3,7 @@
 
 <head>
    <meta charset="utf-8">
-   <title>D3 circular bar: vanillart</title>
+   <title>D3 circular bar: vanilla</title>
    <meta name="description"
       content="D3 circular bar: vanilla JS">
    <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,14 +17,16 @@
          width: 100%; 
          text-align: center;
       }
-      .tick text{
-         font-size:14px;
+      .xLabel{
+         font-size:16px;
          text-transform: uppercase;
+         font-weight: 700;
+         paint-order: stroke;
+         stroke: white;
+         stroke-width: 2px;
+         stroke-linecap: butt;
+         stroke-linejoin: miter;
       }
-      .x-axis path, .y-axis path{
-         display:none;
-      }
-
       
    </style>
 </head>
